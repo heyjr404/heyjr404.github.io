@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Uma pergunta ❤️</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #ffd6e7, #fff0f6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Caixa principal */
+    .container {
+      text-align: center;
+      z-index: 10;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #d6336c;
+      font-size: 35px;
+      margin-bottom: 40px;
+    }
+
+    /* Área dos botões */
+    .botoes {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 15px 35px;
+      font-size: 19px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    #sim {
+      background: #ff4d88;
+      color: white;
+      box-shadow: 0 5px 15px rgba(255, 77, 136, 0.3);
+    }
+
+    #sim:hover {
+      transform: scale(1.08);
+    }
+
+    #nao {
+      background: #777;
+      color: white;
+      position: relative;
+    }
+
+    /* Tela de sucesso */
+    #final {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #ffd6e7, #fff0f6);
+      z-index: 5;
+      text-align: center;
+    }
+
+    #final h2 {
+      color: #d6336c;
+      font-size: 42px;
+      margin-bottom: 25px;
+      animation: aparecer 1s ease;
+    }
+
+    /* GIF */
+    #gif {
+      width: 300px;
+      max-width: 80vw;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      animation: aparecer 1s ease;
+    }
+
+    /* Pétalas */
+    .petala {
+      position: fixed;
+      top: -50px;
+      z-index: 20;
+      pointer-events: none;
+      animation-name: cair;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes cair {
+      0% {
+        transform:
+          translateY(-50px)
+          translateX(0)
+          rotate(0deg);
+        opacity: 1;
+      }
+
+      50% {
+        transform:
+          translateY(50vh)
+          translateX(80px)
+          rotate(180deg);
+      }
+
+      100% {
+        transform:
+          translateY(110vh)
+          translateX(-80px)
+          rotate(360deg);
+        opacity: 0.2;
+      }
+    }
+
+    @keyframes aparecer {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Ajustes para celular */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 28px;
+      }
+
+      #final h2 {
+        font-size: 32px;
+      }
+
+      #gif {
+        width: 250px;
+      }
+
+      button {
+        padding: 13px 25px;
+        font-size: 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- PERGUNTA -->
+  <div class="container" id="pergunta">
+
+    <h1>Quer dormir comigo? ❤️</h1>
+
+    <div class="botoes">
+
+      <button id="sim">
+        Sim ❤️
+      </button>
+
+      <button id="nao">
+        Não
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- TELA APÓS CLICAR EM SIM -->
+  <div id="final">
+
+    <h2>Eu sabia! ❤️🌸</h2>
+
+    <!--
+      TROQUE O LINK ABAIXO PELO GIF QUE VOCÊ QUISER.
+    -->
+    <img
+      id="gif"
+      src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2F5dW9nZ3Q4dWJ6c2N0bW1lZ2J6bG9qY3B4Z3B4d3N5Z3BqY3BqNCZlcD12MV9naWQmY3Q9Zw/26FLdmIp6wJr91JAI/giphy.gif"
+      alt="GIF"
+    >
+
+  </div>
+
+
+  <script>
+
+    const botaoNao = document.getElementById("nao");
+    const botaoSim = document.getElementById("sim");
+
+    /*
+      FAZER O BOTÃO "NÃO" FUGIR
+    */
+
+    function fugir() {
+
+      const largura =
+        window.innerWidth - botaoNao.offsetWidth - 20;
+
+      const altura =
+        window.innerHeight - botaoNao.offsetHeight - 20;
+
+      const x = Math.random() * largura;
+      const y = Math.random() * altura;
+
+      botaoNao.style.position = "fixed";
+
+      botaoNao.style.left = Math.max(10, x) + "px";
+      botaoNao.style.top = Math.max(10, y) + "px";
+    }
+
+
+    // Computador
+    botaoNao.addEventListener("mouseenter", fugir);
+
+
+    // Celular
+    botaoNao.addEventListener("touchstart", function(event) {
+
+      event.preventDefault();
+
+      fugir();
+
+    });
+
+
+    /*
+      QUANDO CLICAR EM "SIM"
+    */
+
+    botaoSim.addEventListener("click", function() {
+
+      // Esconde a pergunta
+      document.getElementById("pergunta").style.display = "none";
+
+      // Mostra a tela final
+      document.getElementById("final").style.display = "flex";
+
+      // Começa a chuva de pétalas
+      criarPetalas();
+
+    });
+
+
+    /*
+      CRIAR PÉTALAS
+    */
+
+    function criarPetalas() {
+
+      const quantidade = 80;
+
+      for (let i = 0; i < quantidade; i++) {
+
+        setTimeout(() => {
+
+          const petala = document.createElement("div");
+
+          petala.classList.add("petala");
+
+          // Emojis de flores/pétalas
+          const flores = [
+            "🌸",
+            "🌺",
+            "🌷",
+            "💮",
+            "🌹"
+          ];
+
+          petala.innerHTML =
+            flores[Math.floor(Math.random() * flores.length)];
+
+          // Posição horizontal aleatória
+          petala.style.left =
+            Math.random() * 100 + "vw";
+
+          // Tamanho aleatório
+          const tamanho =
+            Math.random() * 15 + 15;
+
+          petala.style.fontSize =
+            tamanho + "px";
+
+          // Velocidade aleatória
+          const duracao =
+            Math.random() * 4 + 4;
+
+          petala.style.animationDuration =
+            duracao + "s";
+
+          // Pequeno atraso aleatório
+          petala.style.animationDelay =
+            Math.random() * 2 + "s";
+
+          document.body.appendChild(petala);
+
+
+          // Remove depois da animação
+          setTimeout(() => {
+
+            petala.remove();
+
+          }, (duracao + 3) * 1000);
+
+        }, i * 100);
+
+      }
+
+    }
+
+  </script>
+
+</body>
+</html>
